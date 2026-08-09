@@ -125,7 +125,6 @@ h1, h2, h3, .serif {
   max-width: 560px;
   margin: 0 auto;
   padding: 32px 20px 56px;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -516,8 +515,8 @@ h1, h2, h3, .serif {
 
 /* ---- footer ---- */
 .page-footer {
-  margin-top: auto;
-  padding-top: 32px;
+  margin-top: 32px;
+  padding-top: 0;
   text-align: center;
   font-size: 11px;
   color: rgba(141, 122, 104, 0.6);
