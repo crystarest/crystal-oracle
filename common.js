@@ -119,8 +119,26 @@ function renderBodyBackground() {
     `linear-gradient(180deg, rgba(251,246,234,0.45) 0%, rgba(245,234,210,0.35) 55%, rgba(239,224,191,0.55) 100%), url('${pick}')`;
 }
 
+/* 嵌在 Cyberbiz 的 iframe 高度是固定的,內容變短/變長時框框不會跟著變。
+   這裡把實際內容高度回報給外層頁面,搭配 Cyberbiz 那邊加的一小段監聽
+   程式碼,就能讓 iframe 自動貼合內容高度,不會再有多餘空白。 */
+function initAutoResize() {
+  if (window.parent === window) return; // 沒有被嵌在 iframe 裡就不用做
+  function postHeight() {
+    window.parent.postMessage({ source: "crystal-oracle", height: document.body.scrollHeight }, "*");
+  }
+  postHeight();
+  if (window.ResizeObserver) {
+    new ResizeObserver(postHeight).observe(document.body);
+  } else {
+    window.addEventListener("resize", postHeight);
+    setInterval(postHeight, 1000);
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   renderDeco();
   renderHubOrb();
   renderBodyBackground();
+  initAutoResize();
 });
