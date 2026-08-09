@@ -82,7 +82,7 @@ function showResult() {
   resultEl.innerHTML = `
     <div class="result-tag">你最需要關注的脈輪</div>
     <div class="result-title">${chakraInfo.name}・${chakraInfo.sub}</div>
-    <p class="result-desc">這個脈輪的能量目前偏弱,適合透過對應的礦石來補充與平衡。</p>
+    <p class="result-desc">在脈輪系統的說法裡,這個脈輪目前的傾向較弱,你可以參考以下對應的礦石。</p>
     <div class="crystal-reco-list">
       ${recoCrystals.map(c => `
         <a class="crystal-reco crystal-link" href="${crystalSearchUrl(c)}" target="_blank" rel="noopener">
