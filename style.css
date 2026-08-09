@@ -1,0 +1,603 @@
+/* ===== 水晶靈性小工具組 — 共用視覺系統(呼應 Crystarest 水晶之森 官網的暖色手帳風) ===== */
+
+:root {
+  --bg-deep: #efe0bf;      /* 頁面底色深端 */
+  --bg-mid: #f5ead2;       /* 頁面底色中段 */
+  --bg-glow: #fbf6ea;      /* 頁面底色亮端 */
+  --gold: #c9a15a;         /* 主要點綴色:霧金 */
+  --gold-soft: #b8863f;    /* 深一階的霧金,用於文字/邊框 */
+  --plum: #6b4f8f;         /* 品牌深紫,對應官網 CTA 按鈕色 */
+  --plum-deep: #4a3768;
+  --sage: #8fa888;         /* 鼠尾草綠,礦石抽籤主題色 */
+  --blush: #d98f8f;        /* 灰玫瑰粉,配對遊戲主題色 */
+  --text-main: #4a3728;    /* 暖棕色主文字 */
+  --text-sub: #8d7a68;     /* 暖棕灰次要文字 */
+  --card-bg: #fffaf1;
+  --card-border: rgba(91, 70, 54, 0.14);
+  --shadow-glow: 0 10px 30px rgba(91, 70, 54, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  color: var(--text-main);
+  background: linear-gradient(180deg, var(--bg-glow) 0%, var(--bg-mid) 55%, var(--bg-deep) 100%);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+h1, h2, h3, .serif {
+  font-family: "Noto Serif TC", "Songti TC", serif;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+/* ---- 背景裝飾層(依頁面主題顯示不同小圖示,見 js/common.js) ---- */
+.stars {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.deco-item {
+  position: absolute;
+  opacity: 0.55;
+  animation: drift 6s ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+.deco-item.glyph {
+  font-size: 22px;
+  transform: rotate(var(--rot, 0deg));
+}
+
+.deco-star { color: var(--gold); }
+.deco-moon { color: var(--plum); font-size: 34px; opacity: 0.5; }
+.deco-petal { color: var(--blush); }
+.deco-heart { color: var(--blush); }
+.deco-sparkle { color: var(--gold); }
+
+/* 葉子用 CSS 畫,不用 emoji */
+.deco-leaf-shape {
+  width: 16px;
+  height: 22px;
+  background: var(--sage);
+  border-radius: 0% 100% 0% 100%;
+}
+
+.deco-blob {
+  border-radius: 50%;
+  filter: blur(30px);
+  opacity: 0.28;
+  animation: none;
+}
+
+@keyframes drift {
+  0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
+  50% { transform: translateY(-10px) rotate(var(--rot, 0deg)); }
+}
+
+/* ---- 頁面主題色暈(每個工具一種色調,見各頁 data-theme) ---- */
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 32px 20px 56px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 320px;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--theme-wash, none);
+}
+
+.page[data-theme="fortune"] { --theme-wash: radial-gradient(ellipse at top, rgba(107, 79, 143, 0.18), transparent 70%); }
+.page[data-theme="draw"]    { --theme-wash: radial-gradient(ellipse at top, rgba(143, 168, 136, 0.20), transparent 70%); }
+.page[data-theme="chakra"]  { --theme-wash: radial-gradient(ellipse at top, rgba(201, 161, 90, 0.16), transparent 70%); }
+.page[data-theme="match"]   { --theme-wash: radial-gradient(ellipse at top, rgba(217, 143, 143, 0.20), transparent 70%); }
+
+/* ---- 頂部導覽 ---- */
+.top-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  font-size: 14px;
+}
+
+.top-nav a {
+  color: var(--text-sub);
+  text-decoration: none;
+  border: 1px solid var(--card-border);
+  padding: 6px 14px;
+  border-radius: 999px;
+  transition: all 0.2s ease;
+}
+
+.top-nav a:hover {
+  color: var(--gold-soft);
+  border-color: var(--gold-soft);
+}
+
+.brand {
+  font-size: 14px;
+  color: var(--gold-soft);
+  letter-spacing: 0.15em;
+}
+
+/* ---- 標題區 ---- */
+.hero {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.hero h1 {
+  font-size: 26px;
+  margin: 8px 0 6px;
+  color: var(--plum-deep);
+  text-wrap: balance;
+}
+
+.hero p {
+  color: var(--text-sub);
+  font-size: 14px;
+  margin: 0;
+}
+
+.hero .note {
+  font-size: 11px;
+  color: rgba(141, 122, 104, 0.7);
+  margin-top: 8px;
+}
+
+/* ---- 卡片 ---- */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: var(--shadow-glow);
+  margin-bottom: 20px;
+}
+
+/* ---- 按鈕 ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 999px;
+  border: none;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--plum-deep), var(--plum) 70%);
+  color: #fdf6ea;
+  box-shadow: 0 8px 20px rgba(74, 55, 104, 0.3);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  width: 100%;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn:hover {
+  box-shadow: 0 10px 26px rgba(74, 55, 104, 0.4);
+}
+
+.btn.secondary {
+  background: transparent;
+  color: var(--plum);
+  border: 1px solid var(--plum);
+  box-shadow: none;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn:focus-visible, .option-btn:focus-visible, .tool-card:focus-visible, .top-nav a:focus-visible {
+  outline: 2px solid var(--plum);
+  outline-offset: 2px;
+}
+
+/* ---- 圓球視覺(佔位,之後可用圖片替換) ---- */
+.orb-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 12px 0 20px;
+}
+
+.orb {
+  --img: none;
+  --c1: #c9a15a;
+  width: 160px;
+  height: 160px;
+  position: relative;
+  background-image: var(--img);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 12px 20px rgba(91, 70, 54, 0.3));
+  filter: drop-shadow(0 12px 20px color-mix(in srgb, var(--c1) 45%, rgba(91,70,54,0.35)));
+  animation: float 4s ease-in-out infinite;
+}
+
+.orb.small {
+  width: 96px;
+  height: 96px;
+}
+
+.orb.clickable {
+  cursor: pointer;
+}
+
+.orb.revealed {
+  cursor: default;
+}
+
+.orb.pulse {
+  animation: pulse-burst 1.2s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-burst {
+  0% { filter: drop-shadow(0 12px 20px rgba(91, 70, 54, 0.3)); transform: scale(1); }
+  50% { filter: drop-shadow(0 16px 30px rgba(201, 161, 90, 0.5)) brightness(1.12); transform: scale(1.06); }
+  100% { filter: drop-shadow(0 12px 20px rgba(91, 70, 54, 0.3)); transform: scale(1); }
+}
+
+/* ---- 礦石卡片圖示 ---- */
+.crystal-icon {
+  --img: none;
+  --c1: #ddd;
+  width: 88px;
+  height: 88px;
+  margin: 0 auto 14px;
+  background-image: var(--img);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: drop-shadow(0 6px 12px rgba(91, 70, 54, 0.3));
+  filter: drop-shadow(0 6px 12px color-mix(in srgb, var(--c1) 55%, rgba(91,70,54,0.35)));
+}
+
+/* ---- 總覽頁工具卡片 ---- */
+.tool-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.tool-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 18px;
+  padding: 18px 12px;
+  text-align: center;
+  text-decoration: none;
+  color: var(--text-main);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+  box-shadow: 0 6px 16px rgba(91, 70, 54, 0.08);
+}
+
+.tool-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--plum);
+}
+
+.tool-card .icon {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(91, 70, 54, 0.2));
+}
+
+.tool-card h3 {
+  font-size: 15px;
+  margin: 0;
+  color: var(--plum-deep);
+}
+
+.tool-card p {
+  font-size: 12px;
+  color: var(--text-sub);
+  margin: 0;
+}
+
+/* ---- 進度條(脈輪測試/配對遊戲用) ---- */
+.progress-bar {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(91, 70, 54, 0.12);
+  overflow: hidden;
+  margin-bottom: 22px;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold-soft), var(--gold));
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+.progress-label {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-sub);
+  margin-bottom: 8px;
+}
+
+/* ---- 選項按鈕(測驗用) ---- */
+.option-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.option-btn {
+  text-align: left;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid var(--card-border);
+  background: #fffdf8;
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.option-btn:hover {
+  border-color: var(--plum);
+  background: rgba(107, 79, 143, 0.08);
+}
+
+.option-btn.selected {
+  border-color: var(--plum);
+  background: rgba(107, 79, 143, 0.14);
+  box-shadow: 0 0 0 1px rgba(107, 79, 143, 0.2);
+}
+
+.question-text {
+  font-size: 18px;
+  text-align: center;
+  margin: 4px 0 4px;
+  font-weight: 700;
+  text-wrap: balance;
+  color: var(--plum-deep);
+}
+
+/* ---- 結果區塊 ---- */
+.result-tag {
+  display: inline-block;
+  font-size: 12px;
+  color: #fdf6ea;
+  background: var(--plum);
+  padding: 4px 12px;
+  border-radius: 999px;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.result-title {
+  font-size: 22px;
+  margin: 6px 0 10px;
+  text-align: center;
+  color: var(--plum-deep);
+}
+
+.result-desc {
+  color: var(--text-sub);
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.crystal-reco-list {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
+.crystal-reco {
+  flex: 0 0 auto;
+  width: 120px;
+  text-align: center;
+  background: #fffdf8;
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 14px 10px;
+}
+
+.crystal-reco .crystal-icon {
+  width: 56px;
+  height: 56px;
+  margin-bottom: 8px;
+}
+
+.crystal-reco h4 {
+  font-size: 13px;
+  margin: 0 0 4px;
+  color: var(--plum-deep);
+}
+
+.crystal-reco p {
+  font-size: 11px;
+  color: var(--text-sub);
+  margin: 0;
+}
+
+.cta-note {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-sub);
+  margin-top: 18px;
+}
+
+/* 點礦石可以連到官網搜尋該礦石商品 */
+.crystal-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.crystal-link:hover {
+  transform: translateY(-2px);
+}
+
+/* ---- footer ---- */
+.page-footer {
+  margin-top: auto;
+  padding-top: 32px;
+  text-align: center;
+  font-size: 11px;
+  color: rgba(141, 122, 104, 0.6);
+}
+
+.legal-disclaimer {
+  font-size: 10px;
+  line-height: 1.6;
+  color: rgba(141, 122, 104, 0.55);
+  text-align: center;
+  margin-top: 20px;
+  padding: 0 8px;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--plum);
+  text-decoration: none;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  padding: 8px 16px;
+  border-radius: 999px;
+  transition: all 0.15s ease;
+}
+
+.footer-links img.logo-icon {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.footer-links svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+}
+
+.footer-links a:hover {
+  border-color: var(--plum);
+  background: rgba(107, 79, 143, 0.08);
+}
+
+/* ---- 抽籤思考中的星星散發效果 ---- */
+.orb-stage {
+  position: relative;
+  width: 96px;
+  height: 96px;
+}
+
+.sparkle-burst {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.sparkle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform: rotate(var(--angle, 0deg));
+}
+
+.sparkle::before {
+  content: "\2726";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--gold-soft);
+  font-size: 13px;
+  opacity: 0;
+  text-shadow: 0 0 6px rgba(201, 161, 90, 0.6);
+  transform: translate(-50%, -50%) translateY(0) scale(0.4);
+}
+
+.sparkle-burst.active .sparkle::before {
+  animation: sparkle-fly 1.6s ease-out infinite;
+  animation-delay: var(--delay, 0s);
+}
+
+@keyframes sparkle-fly {
+  0% { opacity: 0; transform: translate(-50%, -50%) translateY(0) scale(0.3); }
+  15% { opacity: 1; }
+  75% { opacity: 0.85; }
+  100% { opacity: 0; transform: translate(-50%, -50%) translateY(-62px) scale(1.1); }
+}
+
+@media (max-width: 380px) {
+  .orb { width: 130px; height: 130px; }
+  .tool-grid { gap: 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sparkle-burst.active .sparkle::before { animation: none; opacity: 0.7; }
+  .deco-item { animation: none; }
+}
