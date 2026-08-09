@@ -28,7 +28,7 @@ const CRYSTALS = [
   { id: "amazonite", name: "天河石", c1: "#9fe0cf", c2: "#3f9c82", chakra: "throat", traits: ["connect", "courage"], desc: "象徵真誠表達,常用於和諧溝通的能量意象" },
   { id: "blue-apatite", name: "藍磷灰", c1: "#7fd8e0", c2: "#1f8a99", chakra: "throat", traits: ["connect", "wisdom"], desc: "象徵靈感與求知,常用於目標意識與表達的意象" },
   { id: "crazy-lace-agate", name: "瘋狂瑪瑙", c1: "#f0d9a8", c2: "#b5793f", chakra: "sacral", traits: ["calm", "connect"], desc: "象徵活力與樂觀,常用於生活熱情的能量意象" },
-  { id: "rainbow-garnet", name: "煙花石榴石", c1: "#d9e08a", c2: "#7a8f2e", chakra: "solar", traits: ["courage", "wealth"], desc: "象徵熱情與行動,常用於內在力量的能量意象" },
+  { id: "rainbow-garnet", name: "煙花石榴石", c1: "#d9e08a", c2: "#7a8f2e", chakra: "root", traits: ["courage", "wealth"], desc: "象徵熱情與行動,常用於內在力量的能量意象" },
   { id: "rainbow-obsidian", name: "彩曜石", c1: "#8a7fbf", c2: "#1a1a22", chakra: "root", traits: ["protect", "calm"], desc: "象徵防護與轉化,常用於內在覺察的能量意象" },
   { id: "red-agate", name: "紅膠花", c1: "#f0a08a", c2: "#b5452f", chakra: "sacral", traits: ["love", "courage"], desc: "象徵活力與熱情,常用於創造力的能量意象" },
   { id: "pyrite", name: "黃鐵礦", c1: "#f0d068", c2: "#a8811c", chakra: "solar", traits: ["wealth", "courage"], desc: "象徵豐盛與自信,常用於行動力與成就的意象" },

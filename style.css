@@ -30,7 +30,11 @@ html, body {
 body {
   font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
   color: var(--text-main);
-  background: linear-gradient(180deg, var(--bg-glow) 0%, var(--bg-mid) 55%, var(--bg-deep) 100%);
+  background-color: var(--bg-mid);
+  background-image: linear-gradient(180deg, rgba(251,246,234,0.75) 0%, rgba(245,234,210,0.6) 55%, rgba(239,224,191,0.75) 100%);
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
@@ -76,6 +80,30 @@ h1, h2, h3, .serif {
   height: 22px;
   background: var(--sage);
   border-radius: 0% 100% 0% 100%;
+}
+
+/* 螢火蟲光點:緩慢飄浮上升、忽明忽暗,營造夢幻感 */
+.firefly {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 6px 2px rgba(232, 200, 114, 0.9), 0 0 14px 4px rgba(232, 200, 114, 0.35);
+  opacity: 0;
+  animation: firefly-fly var(--fly-dur, 14s) ease-in-out infinite;
+  animation-delay: var(--fly-delay, 0s);
+  pointer-events: none;
+}
+
+@keyframes firefly-fly {
+  0%   { transform: translate(0, 0) scale(0.7); opacity: 0; }
+  12%  { opacity: 0.9; }
+  30%  { transform: translate(26px, -50px) scale(1); opacity: 0.7; }
+  50%  { transform: translate(-22px, -95px) scale(0.7); opacity: 0.9; }
+  70%  { transform: translate(30px, -140px) scale(1); opacity: 0.5; }
+  88%  { opacity: 0.8; }
+  100% { transform: translate(-14px, -190px) scale(0.6); opacity: 0; }
 }
 
 .deco-blob {
@@ -597,7 +625,17 @@ h1, h2, h3, .serif {
   .tool-grid { gap: 10px; }
 }
 
+/* ---- 電腦/寬螢幕:放寬版面,避免兩側留白過多,工具卡片排成一整排 ---- */
+@media (min-width: 900px) {
+  .page { max-width: 900px; padding-top: 48px; }
+  .tool-grid { grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .orb:not(.small) { width: 200px; height: 200px; }
+  .hero h1 { font-size: 32px; }
+  .card { padding: 32px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .sparkle-burst.active .sparkle::before { animation: none; opacity: 0.7; }
   .deco-item { animation: none; }
+  .firefly { animation: none; opacity: 0.5; }
 }
